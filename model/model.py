@@ -29,3 +29,6 @@ def note_results():
   
   for sen in sentences:
     pprint(sen)
+
+if __name__ == "__main__":
+    note_results()
