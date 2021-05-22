@@ -25,4 +25,7 @@ def get_note():
  
 def note_results():
   tagger = EasyTokenTagger()
-  return tagger.tag_text(text=get_note(), model_name_or_path=load_model())
+  sentences = tagger.tag_text(text=get_note(), model_name_or_path=load_model())
+  
+  for sen in sentences:
+    pprint(sen)
