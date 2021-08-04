@@ -1,22 +1,19 @@
 import streamlit as st
 import requests
 
-
-
 st.header('**OpenMatch**')
 
-match_type = st.sidebar.selectbox('Match Type', ('NCT ID', 'Patient', 'Disease'))
+match_type = st.sidebar.selectbox('Match Type', ('NCT ID', 'Disease',  'Patient'))
 
 API_KEY = 'your API key here'
 HEADERS = {'x-api-key': API_KEY}
 
+# NCT ID
 def get_site_trial(NCTID: str):
 
     v2_base_trials = 'https://clinicaltrialsapi.cancer.gov/api/v2/trials/'
     url = f'{v2_base_trials}{NCTID}'
-
     r = requests.get(url, headers=HEADERS)
-    # st.write(r.json())
     return r.json()
 
 
@@ -70,7 +67,7 @@ def trial_info(query):
     return
 
 
-
+# Disease search
 def build_url(disease: str,
               keywords: str='',
               country: str='United States',
@@ -95,23 +92,15 @@ def build_url(disease: str,
 
 
 def disease_search(url):
-    HEADERS = {'x-api-key': API_KEY}
     r = requests.get(url, headers=HEADERS)
     return r.json()
 
-def search_results(disease_query):    
+def search_results(disease_query):
+    
     trials = disease_query['data']
     for trial in trials:
         nct_id = trial['nct_id']
         official_title = trial['official_title']
-        # structured_eligibility = trial['eligibility']['structured']
-        # gender = structured_eligibility['gender']
-        # min_age = structured_eligibility['min_age_in_years']
-        # max_age = structured_eligibility['max_age_in_years']
-        # print(f'\tGender: {gender}\n'
-        #     f'\tMininum Age: {min_age}\n'
-        #     f'\tMaximum Age: {max_age}\n')
-
 
         inclusion_criteria = []
         exclusion_criteria = []
@@ -140,6 +129,12 @@ def search_results(disease_query):
 
 
 
+# Patient search
+def label_patient_search(pathology, oncology, imaging):
+    pass
+
+
+
 # NCTID search
 if match_type == 'NCT ID':
     NCTID = st.sidebar.text_input('Enter NCT ID', value='NCT04039230')
@@ -149,15 +144,6 @@ if match_type == 'NCT ID':
 
         trial_info(trial_id)
 
-#Patient search    
-elif match_type == 'Patient': 
-    pathology = st.sidebar.file_uploader('Pathology report', accept_multiple_files=True, key='Pathology')
-    note = st.sidebar.file_uploader('Oncology note', accept_multiple_files=True, key='Note')
-    imaging = st.sidebar.file_uploader('Imaging', accept_multiple_files=True, key='Imaging')
-
-    patient_button = st.sidebar.button('Search')
-    if patient_button:
-        st.write('Yes!')
 
 #Disease search
 elif match_type == 'Disease':
@@ -167,3 +153,19 @@ elif match_type == 'Disease':
         url = build_url(disease=disease)
         disease_query = disease_search(url)
         search_results(disease_query)
+
+
+#Patient search    
+elif match_type == 'Patient': 
+    st.sidebar.write('Copy and paste report text into boxes on the right -->')
+    pathology = st.text_area('Pathology report', key='Pathology')
+    note = st.text_area('Oncology note', key='Note')
+    imaging = st.text_area('Imaging', key='Imaging')
+    genetics = st.text_area('Genetics', key='Genetics')
+
+    patient_button = st.button('Submit')
+    if patient_button:
+        st.write('**Pathology report:**', pathology)
+        st.write('**Oncology note:**', note)
+        st.write('**Imaging report:**', imaging)
+        st.write('**Genetics report:**', genetics)
