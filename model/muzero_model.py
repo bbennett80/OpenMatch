@@ -1,8 +1,4 @@
-# Lint as: python3
 """Pseudocode description of the MuZero algorithm."""
-# pylint: disable=unused-argument
-# pylint: disable=missing-docstring
-# pylint: disable=g-explicit-length-test
 
 from __future__ import absolute_import
 from __future__ import division
