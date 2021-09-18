@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+from model import muzero_model
 
 st.header('**OpenMatch**')
 
@@ -126,13 +127,6 @@ def search_results(disease_query):
         else:
             for i in exclusion_criteria:
                 st.write(f'\t{i}')
-
-
-
-# Patient search
-def label_patient_search(pathology, oncology, imaging):
-    pass
-
 
 
 # NCTID search
