@@ -1,1 +1,0 @@
-# OpenMatch WebSocket Server
