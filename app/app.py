@@ -1,6 +1,5 @@
 import streamlit as st
 import requests
-from model import muzero_model
 
 st.header('**OpenMatch**')
 
