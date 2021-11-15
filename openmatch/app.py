@@ -1,5 +1,8 @@
+
 from nci_api import nci_api
+
 import requests
+
 import streamlit as st
 
 st.header("**OpenMatch**")
@@ -57,7 +60,7 @@ def trial_info(query):
     if not exclusion_criteria:
         st.write("Poorly formatted criteria. Consider manual curation.")
 
-    return
+    return inclusion_criteria, exclusion_criteria
 
 
 # Disease search
@@ -86,6 +89,8 @@ def build_url(
 
 
 def disease_search(url):
+    API_KEY = "YOUR API KEY HERE"
+    HEADERS = {"x-api-key": API_KEY}
     r = requests.get(url, headers=HEADERS)
     return r.json()
 
