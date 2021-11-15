@@ -1,20 +1,24 @@
 
 import requests
+# from nlp import nlp
 
 import streamlit as st
 
 st.header("**OpenMatch**")
+st.subheader('Choose the documents available for upload.')
 
-# Patient search
 st.sidebar.write("Copy and paste report text into boxes on the right -->")
-pathology = st.text_area("Pathology report", key="Pathology")
-note = st.text_area("Oncology note", key="Note")
-imaging = st.text_area("Imaging", key="Imaging")
-genetics = st.text_area("Genetics", key="Genetics")
+documents = st.sidebar.multiselect('Available documents:', 
+                        ['Pathology', 'Progress note', 'Imaging', 'Genetics'])
+
+
 
 patient_button = st.button("Submit")
-if patient_button:
-    st.write("**Pathology report:**", pathology)
-    st.write("**Oncology note:**", note)
-    st.write("**Imaging report:**", imaging)
-    st.write("**Genetics report:**", genetics)
+for doc in documents:
+    doc_text = st.text_area(doc, key=doc)
+    
+    if patient_button:
+        st.write(doc_text)
+
+
+
